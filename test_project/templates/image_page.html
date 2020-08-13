@@ -9,7 +9,7 @@
     </head>
     <body>
         <section class="test_project" style="margin-left: 50px">
-            <a href="">Назад к списку</a>
+            <a href="{% url 'init' %}">Назад к списку</a>
             <h3 class="text-left">Имя картинки</h3>
             <form enctype="multipart/form-data" method="post" >{% csrf_token %}
                 <p class="text-left">Ширина</p>
