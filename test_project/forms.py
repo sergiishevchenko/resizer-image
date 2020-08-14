@@ -1,5 +1,7 @@
-from django import forms
+from django.forms import ModelForm
+from test_project.models import Post
 
-class UploadFileForm(forms.Form):
-    url = forms.CharField()
-    file = forms.ImageField()
+class PostForm(ModelForm):
+    class Meta:
+        model = Post
+        fields = ['url', 'files']
