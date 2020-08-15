@@ -16,10 +16,12 @@ Including another URLconf
 from django.contrib import admin
 from test_project.views import init, image_page, add_new_images
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('image_page', image_page, name='image_page'),
     path('add_new_images', add_new_images, name='add_new_image'),
     path('', init, name='init')
-]
+] + static(settings.MEDIA_URL, document_ROOT=settings.MEDIA_ROOT)
