@@ -10,6 +10,9 @@
     <body>
         <section class="test_project" style="margin-left: 50px">
             <h3 class="text-left">Список изображений</h3>
+            {% for item in images %}
+                <a href="{% url 'image_page' item.id %}">{{ item.files }}</a><br>
+            {% endfor %}
             <a href="{% url 'add_new_image' %}">Добавить изображение</a>
         </section>
     </body>
