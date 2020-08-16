@@ -11,13 +11,16 @@
         <section class="test_project" style="margin-left: 50px">
             <a href="{% url 'init' %}">Назад к списку</a>
             <h3 class="text-left">Имя картинки</h3>
-            <form enctype="multipart/form-data" method="post" >{% csrf_token %}
+            <form enctype="multipart/form-data" method="post">
+                {% csrf_token %}
                 <p class="text-left">Ширина</p>
                 <p class="text-left"><input type="text"></p>
                 <p class="text-left">Высота</p>
                 <p class="text-left"><input type="text"></p>
                 <p class="text-left"><input type="submit" value="Отправить"></p>
              </form>
+             {% load static %}
+             <img  src={% if files %}"{% static files %}"{% else %}"{% static urls %}"{% endif %} width="200" height="200">
         </section>
     </body>
 </html>
