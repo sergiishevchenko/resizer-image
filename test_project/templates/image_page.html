@@ -19,8 +19,14 @@
                 <p class="text-left"><input type="text"></p>
                 <p class="text-left"><input type="submit" value="Отправить"></p>
              </form>
-             {% load static %}
-             <img  src={% if files %}"{% static files %}"{% else %}"{% static urls %}"{% endif %} width="200" height="200">
+            
+            {% if urls %}
+                <img  src="{{ urls }}" width="300" height="300">
+            {% else %}
+                {% load static %}
+                <img  src="{% static files %}" width="200" height="200">
+            {% endif %}
+
         </section>
     </body>
 </html>
