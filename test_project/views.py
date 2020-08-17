@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from test_project.forms import PostForm, SizeForm
-from bs4 import BeautifulSoup
 import requests
 from django.db import connection
 import sqlite3
+from django.shortcuts import redirect
 from test_project.models import Post
+import re
 
 
 def init(request):
@@ -18,7 +19,7 @@ def add_new_images(request):
 
 def image_page(request, id):
     images = Post.objects.get(id=id)
-    url = images.url
+    urls = images.url
     files = images.files
     width = images.width
     height = images.height
@@ -33,12 +34,13 @@ def image_page(request, id):
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             if len(form['url'].value()) > 0:
-                url = form['url'].value()
-                new_image = Post(url=url, files=url.split('/')[-1])
+                urls = form['url'].value()
+                res = re.findall(r'(?<=\/)[^\/\?#]+(?=[^\/]*$)', urls)
+                new_image = Post(url=urls, files=res[0])
                 new_image.save()
             else:
                 files = request.FILES['files'].name
                 form.save()
         else:
             print('Error here!')
-    return render(request, 'image_page.html', {'url': url, 'files': files, 'width': width, 'height': height})
+    return render(request, 'image_page.html', {'urls': urls, 'files': files, 'width': width, 'height': height, 'id': id})
