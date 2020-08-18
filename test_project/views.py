@@ -6,6 +6,8 @@ import sqlite3
 from django.shortcuts import redirect
 from test_project.models import Post
 import re
+from PIL import Image
+from io import BytesIO
 
 
 def init(request):
@@ -24,19 +26,16 @@ def image_page(request, id):
     width = images.width
     height = images.height
     if request.method == 'POST':
-        # size_form = SizeForm(request.POST)
-        # if size_form.is_valid():
-        #     width = size_form['width']
-        #     height = request.FILES['height']
-        #     size_form.save()
-        # else:
-        #     print('Error!')
         form = PostForm(request.POST, request.FILES)
         if form.is_valid():
             if len(form['url'].value()) > 0:
                 urls = form['url'].value()
                 res = re.findall(r'(?<=\/)[^\/\?#]+(?=[^\/]*$)', urls)
-                new_image = Post(url=urls, files=res[0])
+                img_data = requests.get(urls).content
+                im = Image.open(BytesIO(img_data))
+                width = im.size[0]
+                height = im.size[1]
+                new_image = Post(url=urls, files=res[0], width=width, height=height)
                 new_image.save()
             else:
                 files = request.FILES['files'].name
