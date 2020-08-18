@@ -25,21 +25,32 @@ def image_page(request, id):
     files = images.files
     width = images.width
     height = images.height
+
     if request.method == 'POST':
         form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            if len(form['url'].value()) > 0:
-                urls = form['url'].value()
-                res = re.findall(r'(?<=\/)[^\/\?#]+(?=[^\/]*$)', urls)
-                img_data = requests.get(urls).content
-                im = Image.open(BytesIO(img_data))
-                width = im.size[0]
-                height = im.size[1]
-                new_image = Post(url=urls, files=res[0], width=width, height=height)
+        if form in request.POST:
+            if form.is_valid():
+                if len(form['url'].value()) > 0:
+                    urls = form['url'].value()
+                    res = re.findall(r'(?<=\/)[^\/\?#]+(?=[^\/]*$)', urls)
+                    img_data = requests.get(urls).content
+                    im = Image.open(BytesIO(img_data))
+                    width = im.size[0]
+                    height = im.size[1]
+                    new_image = Post(url=urls, files=res[0], width=width, height=height)
+                    new_image.save()
+                else:
+                    files = request.FILES['files'].name
+                    form.save()
+            else:
+                print('Error here!')
+        else:
+            size_form = SizeForm(request.POST)
+            if size_form.is_valid():
+                width = size_form['width'].value()
+                height = size_form['height'].value()
+                new_image = Post(url=urls, files=files, width=width, height=height)
                 new_image.save()
             else:
-                files = request.FILES['files'].name
-                form.save()
-        else:
-            print('Error here!')
+                print('Error size!')
     return render(request, 'image_page.html', {'urls': urls, 'files': files, 'width': width, 'height': height, 'id': id})
