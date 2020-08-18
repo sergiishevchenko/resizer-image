@@ -49,6 +49,7 @@ def image_page(request, id):
             if size_form.is_valid():
                 width = size_form['width'].value()
                 height = size_form['height'].value()
+                files = width + 'x' + height + '___' + str(files)
                 new_image = Post(url=urls, files=files, width=width, height=height)
                 new_image.save()
             else:
