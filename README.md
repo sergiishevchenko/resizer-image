@@ -3,7 +3,7 @@
 ## How to start?
 Нужно ввести следующие команды:
 ```
-- git clone <SSH address of this repo>
+- git clone https://github.com/sergiishevchenko/resizer-image.git
 - python3 -m venv myenv && source myenv/bin/activate && pip install -r requirements.txt
 - python3 manage.py runserver
 
