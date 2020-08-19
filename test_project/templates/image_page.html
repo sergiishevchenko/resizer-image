@@ -14,17 +14,17 @@
             <form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
                 <p class="text-left">Ширина</p>
-                <p class="text-left"><input type="text"></p>
+                <p class="text-left"><input type="text" id="width" name="width" required placeholder="Введите значение"></p>
                 <p class="text-left">Высота</p>
-                <p class="text-left"><input type="text"></p>
+                <p class="text-left"><input type="text" id="height" name="height" required placeholder="Введите значение"></p>
                 <p class="text-left"><input type="submit" value="Отправить"></p>
              </form>
             
             {% if urls %}
-                <img  src="{{ urls }}" width="300" height="300">
+                <img  src="{{ urls }}" width={{ width }} height={{ height }}>
             {% else %}
                 {% load static %}
-                <img  src="{% static files %}" width="200" height="200">
+                <img  src="{% static files %}" width={{ width }} height={{ height }}>
             {% endif %}
 
         </section>
