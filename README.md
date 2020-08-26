@@ -13,3 +13,13 @@
 После запуска Django появится ссылка типа http://127.0.0.1:8000/ - нажмите на неё.
 
 Приложение готово для локального использования!
+
+## How to use Docker?
+
+```
+- docker build .  // создание образа
+- docker-compose build   // создание docker образа
+- docker-compose up -d  // обновление docker образа
+- docker-compose logs -f  // логи
+- docker ps -a   // просмотреть все активные контейнеры
+```
